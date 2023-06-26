@@ -91,8 +91,12 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
+// Get current user - is called on page load by navbar
 export async function getCurrentUser() {
   const session = await getServerSession(authOptions) as SessionInterface;
-
+  // testing - log the session
+  console.log("Session object ",session)
+  
+  // return session object
   return session;
 }

@@ -8,8 +8,10 @@ import { getCurrentUser } from '@/lib/session'
 type Props = {}
 
 export default async function Navbar({}: Props) {
+    // on load, get the current user
     const session = await getCurrentUser();
-
+    // testing - log the session info for user
+    console.log("Session info from navbar:",session);
 
   return (
     <nav className='flexBetween navbar'>
@@ -26,9 +28,13 @@ export default async function Navbar({}: Props) {
             {session?.user ? (
                 // if logged in show
                 <>
+                {/* user image */}
                 {session?.user.image && (
-                <Image src={session.user.image} width={40} height={40} className='rounded-full' alt={session.user.name} />)}
-
+                    <Link href={'/profile/${session?.user?.id'}>
+                <Image src={session.user.image} width={40} height={40} className='rounded-full' alt={session.user.name} />
+                </Link>
+                )}
+                
                 <Link href="/create-project">Share your work</Link>
                 
                 </>
