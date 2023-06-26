@@ -149,7 +149,8 @@ body {
 }
 
 .form_image-container {
-  @apply w-full lg:min-h-[400px] min-h-[200px] relative;
+   /* @apply w-full lg:min-h-[400px] min-h-[200px] relative; - original */
+  @apply w-full lg:min-h-[200px] min-h-[200px] relative;
 }
 
 .form_image-label {

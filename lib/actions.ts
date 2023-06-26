@@ -10,8 +10,10 @@ const serverUrl = isProduction ? process.env.NEXT_PUBLIC_SERVER_URL : 'http://lo
 
 const client = new GraphQLClient(apiUrl);
 
+// get the session token from next auth
 export const fetchToken = async () => {
   try {
+    // hit the next auth endpoint to the session token
     const response = await fetch(`${serverUrl}/api/auth/token`);
     return response.json();
   } catch (err) {
@@ -19,6 +21,7 @@ export const fetchToken = async () => {
   }
 };
 
+// upload the image to cloudinary
 export const uploadImage = async (imagePath: string) => {
   try {
     const response = await fetch(`${serverUrl}/api/upload`, {
@@ -46,19 +49,22 @@ export const fetchAllProjects = (category?: string | null, endcursor?: string | 
 
   return makeGraphQLRequest(projectsQuery, { category, endcursor });
 };
-
+// createNewProject
+// type = ProjectForm
 export const createNewProject = async (form: ProjectForm, creatorId: string, token: string) => {
+  // get the url
   const imageUrl = await uploadImage(form.image);
-
+  
   if (imageUrl.url) {
+    // ADD THE AUTH HEADER
     client.setHeader("Authorization", `Bearer ${token}`);
-
+    // variables
     const variables = {
       input: { 
         ...form, 
         image: imageUrl.url, 
         createdBy: { 
-          link: creatorId 
+          link: creatorId
         }
       }
     };

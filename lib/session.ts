@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
         secret
       );
       // test
-      console.log(encodedToken);
+      // console.log("Session encodedToken:",encodedToken);
       return encodedToken;
     },
     // decode
@@ -72,7 +72,7 @@ export const authOptions: NextAuthOptions = {
       // check for user
     {
       try {
-        console.log("checking for user")
+        // console.log("checking for user")
         const userExists = await getUser(user?.email as string) as { user?: UserProfile }
         
         if (!userExists.user) {
@@ -81,7 +81,7 @@ export const authOptions: NextAuthOptions = {
           await createUser(user.name as string, user.email as string, user.image as string)
         }
         // return true
-        console.log("userExists",userExists)
+        // console.log("userExists",userExists)
         return true;
       } catch (error: any) {
         console.log("Error checking if user exists: ", error.message);
@@ -95,7 +95,7 @@ export const authOptions: NextAuthOptions = {
 export async function getCurrentUser() {
   const session = await getServerSession(authOptions) as SessionInterface;
   // testing - log the session
-  console.log("Session object ",session)
+  // console.log("Session object ",session)
   
   // return session object
   return session;
