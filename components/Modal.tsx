@@ -1,3 +1,4 @@
+// modal
 "use client";
 
 import { useCallback, useRef, ReactNode } from "react";
@@ -9,7 +10,7 @@ export default function Modal({ children }: { children: ReactNode }) {
     const wrapper = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
-    const onDismiss = useCallback(() => {        
+    const onDismiss = useCallback(() => {
         router.push("/");
     }, [router]);
 

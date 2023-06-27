@@ -74,40 +74,43 @@ export const createNewProject = async (form: ProjectForm, creatorId: string, tok
     return makeGraphQLRequest(createProjectMutation, variables);
   }
 };
-
+// updateProject - checks if image has been changed
 export const updateProject = async (form: ProjectForm, projectId: string, token: string) => {
+  // if base64 = new uload if not = old file
   function isBase64DataURL(value: string) {
     const base64Regex = /^data:image\/[a-z]+;base64,/;
     return base64Regex.test(value);
   }
-
+  // create updated form
   let updatedForm = { ...form };
-
+  // set isUploadingNewImage
   const isUploadingNewImage = isBase64DataURL(form.image);
-
+  // check
   if (isUploadingNewImage) {
+    // get imageUrl
     const imageUrl = await uploadImage(form.image);
-
+    // add it to the form
     if (imageUrl.url) {
+      // spread old form, add image, save to updatedForm
       updatedForm = { ...updatedForm, image: imageUrl.url };
     }
   }
-
+  // add header
   client.setHeader("Authorization", `Bearer ${token}`);
-
+  // set variables
   const variables = {
     id: projectId,
     input: updatedForm,
   };
-
+  // upload to GraphQL
   return makeGraphQLRequest(updateProjectMutation, variables);
 };
-
+// Delete - secure Action needs header - "Authorization", `Bearer ${token}`
 export const deleteProject = (id: string, token: string) => {
   client.setHeader("Authorization", `Bearer ${token}`);
   return makeGraphQLRequest(deleteProjectMutation, { id });
 };
-
+// getProjectDetails - client.setHeader("x-api-key", apiKey);
 export const getProjectDetails = (id: string) => {
   client.setHeader("x-api-key", apiKey);
   return makeGraphQLRequest(getProjectByIdQuery, { id });
