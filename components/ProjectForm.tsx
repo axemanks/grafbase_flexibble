@@ -1,6 +1,6 @@
 "use client"
 import { FormState, ProjectInterface, SessionInterface } from '@/common.types'
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import Image from 'next/image';
 import FormField from './FormField';
 import { useRouter } from 'next/navigation';
